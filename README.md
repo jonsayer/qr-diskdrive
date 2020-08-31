@@ -114,6 +114,16 @@ which will launch a menu that will allow you to configure all the same options.
                         Default: L
 ```
 
+### More Example commands
+
+Save the file "never-gonna-give-you-up.mp3" to a pdf file on standard 8.5" x 11" paper, in the color red, in the folder "exampleFolder", and changing the name to "yellowSubmarine.mp3" so no one gets suspicious.
+
+`python3 qr-diskdrive.py -s never-gonna-give-you-up.mp3 -o letter -f red -d exampleFolder -n yellowSubmarine`
+
+Save the file "rick-astley.jpg" to a pdf file on playing-card size paper, but restricting each QR code to 271 bytes of data, and renaming the file to "theBeatles.jpg".
+
+`python3 qr-diskdrive.py -s rick-astley.jpg -o playing_card -b 271 -n theBeatles`
+
 ## How files are saved across multiple QR codes
 
 In order to save files of any type across multiple QR codes, the data encoded by this program will include the following metadata within the QR code data.
@@ -138,7 +148,7 @@ Early in the history of computers, the forms of data storage available to us wer
 
 I wanted a way to physically handle data, something I could see, like a punch card. While there are not a lot of tools out there for decoding and encoding punch cards, QR codes can be created and read by almost any device. They are like a modern punch card, a visible, tangible form of data, ink on a page arranged to have meaning. 
 
-I envision this tool as creating modern punch cards, data made tangible. A gif encoded in a stack of playing cards. A spreadsheet stored in a shoebox. An mp3 stored in a binder. 
+I envision this tool as creating modern punch cards, data made tangible. A gif encoded in a stack of playing cards. A rick roll stored in a shoebox. An mp3 stored in a binder. 
 
 Completely absurd, of course, 
 
