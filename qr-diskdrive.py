@@ -37,7 +37,7 @@ PLAYING_CARD = (2.5 * inch, 3.5 * inch)
 INDEX_CARD = (3 * inch, 5 * inch)
 
 #max capacity of a QR code in binary is 2953. 
-CHUNK_SIZE = 2900 #2928     set to 1kb
+CHUNK_SIZE = 2928 #2928     set to 1kb
 #pixel width of a bit of saved QR code
 DEFAULT_PIXEL_DENSITY = 10
 #color of a 'black' pickel
@@ -63,16 +63,16 @@ class qrCodeOutput:
 def main():
     print(welcomeGraphic())
     
-    parser = argparse.ArgumentParser(description='## WRITE A DESCRIPTION')
+    parser = argparse.ArgumentParser(description='This is a tool for saving files as QR codes, in the manner of saving files to an old-fashioned data format such as tape or punch cards. ')
     parser.add_argument("-s","--save", type=str, help="Save specified file to QR code", action="store")
     parser.add_argument("-l","--load",  type=str, help="Load a file from a QR code or series of codes in specified image file(s) using the filename '[filename].[0-9].png' ", action="store")
-    parser.add_argument("-c","--camera", help="Load a file from a QR code/series of codes from a webcam", action="store_true")
+    parser.add_argument("-c","--camera", help="Load a file from a QR code/series of codes from a webcam. Allows for the scanning of multiple QR codes in sequence for larger files. Will use your primary webcam by default.", action="store_true")
     parser.add_argument("-d","--directory",  type=str, help="Directory in which to save the output files", action="store")
-    parser.add_argument("-n","--name", type=str, help="Output file name overriding default behavior (for save, default uses filename in, for load default uses name encoded in QR code, or file name). Setting this will not override the file type (eg. png, zip, etc)", action="store")
+    parser.add_argument("-n","--name", type=str, help="Output file name, overriding default behavior (for save, default uses the name of file being encoded, for load default uses name encoded within the QR code). Setting this will not override the file type which is encoded in the QR code or the original file(eg. png, zip, etc)", action="store")
     #parser.add_argument("-cid","--cameraId", help="Select the webcam to use as the input camera. Default = 0", type=int, action="store")
-    parser.add_argument("-o","--outputType", type=str, help="Output Type: PNG (Default), letter, index_card, playing_card, zip. Ignored when loading data.", action="store")
-    parser.add_argument("-b","--bytesize", type=int, help="Maximum size of each QR code, in bytes (max 2953, default 2900)", action="store")
-    parser.add_argument("-px","--pixeldensity", type=int, help="Width in pixels of a bit of saved QR code.", action="store")
+    parser.add_argument("-o","--outputType", type=str, help="Output Type: Method for outputting QR codes. Options: PNG (Default), letter, index_card, playing_card, zip. Ignored when loading data.", action="store")
+    parser.add_argument("-b","--bytesize", type=int, help="Maximum size of each QR code, in bytes (max and default: 2953). Use one of the following for maximum capacity and scannability: 2953, 2303, 1732, 1273, 858, 520, 271, 106 ", action="store")
+    parser.add_argument("-px","--pixeldensity", type=int, help="Width in pixels of a bit of saved QR code. Default: 10", action="store")
     parser.add_argument("-f","--fillcolor", type=str, help="FILL COLOR, ie the dark color in the QR code. Use a basic color name eg. \'red\' or a hex code eg. #FFAABB.  Default: black", action="store")
     parser.add_argument("-w","--whitebackgroundcolor", type=str, help="BACK COLOR, ie the light color in the QR code.  \n Default: white", action="store")
     parser.add_argument("-e","--errorcorrection", type=str, help="Error correction level in QR codes. Can use L, M or H  \n Default: L", action="store")
@@ -90,12 +90,12 @@ def main():
                 saveMode(filename,False,LETTER,outFileName)
             elif args.outputType.lower() == 'letter':
                 saveMode(filename,True,LETTER,outFileName)
-            elif args.outputType.lower() == 'index':
+            elif args.outputType.lower() == 'index_card':
                 saveMode(filename,True,INDEX_CARD,outFileName)
             elif args.outputType.lower() == 'playing_card':
                 saveMode(filename,True,PLAYING_CARD,outFileName)
             elif args.outputType.lower() == 'zip':
-                print('I aint done that yet')
+                print('Sorry, I haven\'t set that up yet. Next version!')
                 sys.exit()
             else:
                 print('invalid output type')
@@ -272,7 +272,7 @@ def saveMode(filename,pdfMode,pagesize,preset_outFileName):
 
 def getAndSplitFile(filename,chunkSize,preset_outFileName):
     if not path.exists( filename ):
-        show_usage()
+        print('File does not exist: '+filename)
         exit( 1 )
     if is_binary( filename ):
         print('\nThis is a binary file. It\'s contents will be encoded in Base64 as ascii text in the QR code. \n')
@@ -478,7 +478,6 @@ def readFromPNG(fileName,outFileName):
         else:
             if index == 0:
                 print('\nFile "{}" does not exist'.format(fileName) )
-                show_usage()
                 exit( 1 )
             isAnotherFile = False
         index += 1
@@ -572,9 +571,6 @@ def generateFileName(filename,current,outputCount):
 def getextension(filename):
     name, file_extension = path.splitext(filename)
     return file_extension
-
-def show_usage():
-    print('you did it wrong')
 
 def welcomeGraphic():
     out = '''
