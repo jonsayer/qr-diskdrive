@@ -73,6 +73,7 @@ which will launch a menu that will allow you to configure all the same options.
 
 ### Command line arguments
 
+```
   -h, --help            show this help message and exit
   -s SAVE, --save SAVE  Save specified file to QR code
   -l LOAD, --load LOAD  Load a file from a QR code or series of codes in
@@ -111,6 +112,7 @@ which will launch a menu that will allow you to configure all the same options.
   -e ERRORCORRECTION, --errorcorrection ERRORCORRECTION
                         Error correction level in QR codes. Can use L, M or H
                         Default: L
+```
 
 ## How files are saved across multiple QR codes
 
@@ -136,7 +138,7 @@ Early in the history of computers, the forms of data storage available to us wer
 
 I wanted a way to physically handle data, something I could see, like a punch card. While there are not a lot of tools out there for decoding and encoding punch cards, QR codes can be created and read by almost any device. They are like a modern punch card, a visible, tangible form of data, ink on a page arranged to have meaning. 
 
-I envision this tool as creating modern punch cards, data made tangible. A jpg encoded in a stack of playing cards. A spreadsheet stored in a shoebox. An mp3 stored in a binder. 
+I envision this tool as creating modern punch cards, data made tangible. A gif encoded in a stack of playing cards. A spreadsheet stored in a shoebox. An mp3 stored in a binder. 
 
 Completely absurd, of course, 
 
@@ -152,3 +154,10 @@ In the future I intend to:
 - Allow the user to select a different webcam from their default. Useful if you have one that is not attached to the screen of your laptop. 
     - As it is, that can be changed from the code in the function readFromCamera()
 - Allow the user to save their file as a Zip file containing the PNG files. 
+
+## Credit where due
+
+I owe the following sources for inspiration and/or the knowledge I needed to make this. 
+
+- eandriol's [file2qr-qr2file](https://github.com/eandriol/file2qr-qr2file). I believe I stole from them the idea to store binary files in base64, and using the `b64:` prefix. Reading the code helped, but I don't believe I am using any of their code aside from using pyzbar to decode. 
+- MattKC stored a game in a qr code [here](https://www.youtube.com/watch?v=ExwqNreocpg)
