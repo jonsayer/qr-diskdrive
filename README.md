@@ -39,11 +39,8 @@ The following python libraries are required. A few of these should already be lo
 - cv2
 - sys
 - argparse
-- time
-- math
 - pyzbar
 - base64
-- os
 - binaryornot
 - reportlab
 
