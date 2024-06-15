@@ -127,7 +127,7 @@ def main():
     parser.add_argument("-f","--fillcolor", type=str, help="FILL COLOR, ie the dark color in the QR code. Use a basic color name eg. \'red\' or a hex code eg. #FFAABB.  Default: black", action="store")
     parser.add_argument("-w","--whitebackgroundcolor", type=str, help="BACK COLOR, ie the light color in the QR code.  \n Default: white", action="store")
     #parser.add_argument("-p","--codesperpage", type=str, help="When outputing to a PDF, defines how many QR codes to put on a page. Default for index_card and playing_card is 1, default for letter is 4 (2 columns and 2 rows), and the default for half-letter is 2 (1 column and 2 rows).", action="store")
-    parser.add_argument("-a","--codealign", type=str, help="Alignm the qr code within its column, if the horizontal space available is wider than the code. Options: left, right, center. Default: left", action="store")
+    parser.add_argument("-a","--codealign", type=str, help="On a PDF, how to align the qr code within its column, if the horizontal space available is wider than the code. Options: left, right, center. Default: left", action="store")
     parser.add_argument("-mt","--margintop", type=float, help="Top Margin, when outputing to a PDF. Default: 0.5 inch on letter, 0.25 inch on all others.", action="store")
     parser.add_argument("-mr","--marginright", type=float, help="Right Margin, when outputing to a PDF. Default: 0.5 inch on letter, 0.25 inch on all others.", action="store")
     parser.add_argument("-mb","--marginbottom", type=float, help="Bottom Margin, when outputing to a PDF. Default: 0.5 inch on letter, 0.25 inch on all others.", action="store")
