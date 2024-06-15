@@ -72,43 +72,67 @@ which will launch a menu that will allow you to configure all the same options.
 
 ```
   -h, --help            show this help message and exit
-  -s SAVE, --save SAVE  Save specified file to QR code
-  -l LOAD, --load LOAD  Load a file from a QR code or series of codes in
-                        specified image file(s) using the filename
-                        '[filename].[0-9].png'
-  -c, --camera          Load a file from a QR code/series of codes from a
-                        webcam. Allows for the scanning of multiple QR codes
-                        in sequence for larger files. Will use your primary
-                        webcam by default.
+  -l LOAD, --load LOAD  Load a file from a QR code or series of codes in specified image file(s) using the filename
+                        '[filename].[0-9].png'.
+  -c, --camera          Load a file from a QR code/series of codes from a webcam. Allows for the scanning of multiple
+                        QR codes in sequence for larger files. Will use your primary webcam by default.
+  -n NAME, --name NAME  Output file name, overriding default behavior (for save, default uses the name of file being
+                        encoded, for load default uses name encoded within the QR code). Setting this will not
+                        override the file type which is encoded in the QR code or the original file(eg. png, zip,
+                        etc).
+  -s SAVE, --save SAVE  Save specified file to QR code.
   -d DIRECTORY, --directory DIRECTORY
-                        Directory in which to save the output files
-  -n NAME, --name NAME  Output file name, overriding default behavior (for
-                        save, default uses the name of file being encoded, for
-                        load default uses name encoded within the QR code).
-                        Setting this will not override the file type which is
-                        encoded in the QR code or the original file(eg. png,
-                        zip, etc)
+                        Directory in which to save the output files from a save action.
+  -z, --zipfirst        Flag to Zip the file first before encoding it into QR codes (as a compressed file needs fewer
+                        codes). When the file is decoded, it will be automatically unzipped. NOTE: This does't relate
+                        to the output type of 'zip'.
   -o OUTPUTTYPE, --outputType OUTPUTTYPE
-                        Output Type: Method for outputting QR codes. Options:
-                        PNG (Default), letter, index_card, playing_card, zip.
-                        Ignored when loading data.
+                        Output Type: Method for outputting QR codes. Options: PNG (Default), letter, half_letter,
+                        index_card, playing_card, zip. Ignored when loading data.
   -b BYTESIZE, --bytesize BYTESIZE
-                        Maximum size of each QR code, in bytes (max and
-                        default: 2953). Use one of the following for maximum
-                        capacity and scannability: 2953, 2303, 1732, 1273,
-                        858, 520, 271, 106
-  -px PIXELDENSITY, --pixeldensity PIXELDENSITY
-                        Width in pixels of a bit of saved QR code. Default: 10
-  -f FILLCOLOR, --fillcolor FILLCOLOR
-                        FILL COLOR, ie the dark color in the QR code. Use a
-                        basic color name eg. 'red' or a hex code eg. #FFAABB.
-                        Default: black
-  -w WHITEBACKGROUNDCOLOR, --whitebackgroundcolor WHITEBACKGROUNDCOLOR
-                        BACK COLOR, ie the light color in the QR code.
-                        Default: white
+                        Maximum size of each QR code, in bytes (max and default: 2953). Use one of the following for
+                        maximum capacity and scannability: 2953, 2303, 1732, 1273, 858, 520, 271, 106
+  -bd BORDER, --border BORDER
+                        Width of the border around the generated QR code image, in the background color, measured in
+                        blocks.
   -e ERRORCORRECTION, --errorcorrection ERRORCORRECTION
-                        Error correction level in QR codes. Can use L, M or H
-                        Default: L
+                        Error correction level in QR codes. Can use L, M or H Default: L
+  -x PIXELDENSITY, --pixeldensity PIXELDENSITY
+                        Width in pixels of a bit of saved QR code in a PNG. Default: 10
+  -f FILLCOLOR, --fillcolor FILLCOLOR
+                        FILL COLOR, ie the dark color in the QR code. Use a basic color name eg. 'red' or a hex code
+                        eg. #FFAABB. Default: black
+  -w WHITEBACKGROUNDCOLOR, --whitebackgroundcolor WHITEBACKGROUNDCOLOR
+                        BACK COLOR, ie the light color in the QR code. Default: white
+  -a CODEALIGN, --codealign CODEALIGN
+                        Alignm the qr code within its column, if the horizontal space available is wider than the
+                        code. Options: left, right, center. Default: left
+  -mt MARGINTOP, --margintop MARGINTOP
+                        Top Margin, when outputing to a PDF. Default: 0.5 inch on letter, 0.25 inch on all others.
+  -mr MARGINRIGHT, --marginright MARGINRIGHT
+                        Right Margin, when outputing to a PDF. Default: 0.5 inch on letter, 0.25 inch on all others.
+  -mb MARGINBOTTOM, --marginbottom MARGINBOTTOM
+                        Bottom Margin, when outputing to a PDF. Default: 0.5 inch on letter, 0.25 inch on all others.
+  -ml MARGINLEFT, --marginleft MARGINLEFT
+                        Left Margin, when outputing to a PDF. Default: 0.5 inch on letter, 0.25 inch on all others.
+  -mi MARGININTERIOR, --margininterior MARGININTERIOR
+                        Margin between columns, when outputing to a PDF with multiple columns. Default: 0.5 inch on
+                        letter, 0.25 inch on all others.
+  -col COLUMNS, --columns COLUMNS
+                        On a PDF, the number of columns of QR codes. Default: 1, except on letter, which is 2.
+  -r ROWS, --rows ROWS  On a PDF, the number of rows of QR codes. Default: 1, except on letter and half_letter, which
+                        is 2.
+  -t INCLUDETEXT, --includeText INCLUDETEXT
+                        When outputting to a PDF, include this to include the text contained in the QR on the same
+                        page as it. Options: left, right, above, below. NOTE: You must include a -r/--rows or
+                        -col/columns parameter above 1 for this to work, as it will render the text in one of the
+                        spots for a QR code. NOTE: For text that includes a lot of new lines, the tool might not work
+                        very well because text will always take up more space than a QR code.
+  -y, --overridebytesizelimits
+                        By default, when outputting to PDF, the system will try to figure out a minimum bytesize given
+                        the size of the QR codes that will be on the page to ensure they aren't too small to be read.
+                        This may override a bytesize you set explicitly. Include this flag to override the override,
+                        and use the bytesize you explicitly set.
 ```
 
 ### More Example commands
@@ -127,9 +151,11 @@ In order to save files of any type across multiple QR codes, the data encoded by
 
 `b64:` On the first QR code only, this flag will start the encoded data if we are dealing with a binary filetype that has been encoded in base64. 
 
+`:z:` On the first QR code only, this flag indicates that out data is zipped. The tool will unzip the data after decoding it.  
+
 `::f::FILENAME.XXX::/f::` Encodes the filename on the first QR code. 
 
-`::c0::` Encodes which QR code this is in order. When scanning by camera, the scanner checks to make sure you have not accidentally scanned a code out of order. 
+`::c0::` Encodes which QR code this is in order, where 0 is the index. When scanning by camera, the scanner checks to make sure you have not accidentally scanned a code out of order. 
 
 So, if a jpg file called "example.jpg" is split between 3 QR codes, the first QR code will start with the flag `b64:` followed by the flag `::f::example.jpg::/f::`, then `::c0::`, after which will be the data of the jpg file encoded in base 64. The second QR code will start with `::c1::` and the third QR code will start with `::c2::`. There is no flag indicating that the file is finished, or that this is the last QR code in a series. 
 
@@ -147,20 +173,35 @@ I wanted a way to physically handle data, something I could see, like a punch ca
 
 I envision this tool as creating modern punch cards, data made tangible. A gif encoded in a stack of playing cards. A rick roll stored in a shoebox. An mp3 stored in a binder. 
 
-Completely absurd, of course, 
+Completely absurd, of course, but that's the point. 
 
 ## Future improvements 
 
 In the future I intend to:
 
-- Test and make it all work on Windows. I have only used this on Linux so far. 
+- Allow the encoding of an entire directory, both zipped and unzipped. 
+- investigate the use of [segno](https://segno.readthedocs.io/en/latest/) instead of the qrcode library.
 - Allow the user to print directly, sending the PDF file to the operating system's printer dialog.
-- Recommend maximum QR code data capacities for the PDF formats. This will require lots of printing and testing. 
-- Allow the user to select the number of codes per letter-sized PDF page (1 or 4), which would be useful for very large codes that need to be read by low-quality cameras. 
 - Print directly to a standard receipt printer, at a reduced capacity per QR code. 
+    - I'm going to need a receipt printer before considering this, and lots of paper.
 - Allow the user to select a different webcam from their default. Useful if you have one that is not attached to the screen of your laptop. 
-    - As it is, that can be changed from the code in the function readFromCamera()
+    - As it is, that can be changed from the code in the function readFromCamera(). Should be able to set this parameter
+
+## Changelog
+
+### changed on version released June 2024
+
+- Calculate the maximum file chunk size when outputting to PDF to prevent QR codes that are are illegible. Also allows the user to override this setting
+- Allow the user to select the number of codes per letter-sized PDF page (1 or 4), which would be useful for very large codes that need to be read by low-quality cameras. 
+    - this is done by setting columns and rows
 - Allow the user to save their file as a Zip file containing the PNG files. 
+- Render the encoded text on a pdf alongside the QR code. 
+- Allow the user to select qr code styling, [as defined here](https://pypi.org/project/qrcode/).
+
+
+## Testing plan
+
+
 
 ## Credit where due
 
